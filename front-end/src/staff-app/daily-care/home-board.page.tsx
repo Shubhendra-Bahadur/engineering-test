@@ -13,7 +13,7 @@ import { Select, MenuItem, RadioGroup, Radio, FormControlLabel } from "@material
 import { faArrowUp, faArrowDown, faSearch } from "@fortawesome/free-solid-svg-icons"
 import { sortByOption, orderByOption } from "staff-app/contants"
 import { useStateContext } from "StateContext"
-import { SORTS, ORDERS } from "shared/interfaces/sort.interfaces"
+import { SORTS, ORDERS } from "shared/interfaces/staff.interfaces"
 
 export const HomeBoardPage: React.FC = () => {
   const { searchText, sortBy, orderBy } = useStateContext()
