@@ -10,19 +10,42 @@ import { useApi } from "shared/hooks/use-api"
 import { StudentListTile } from "staff-app/components/student-list-tile/student-list-tile.component"
 import { ActiveRollOverlay, ActiveRollAction } from "staff-app/components/active-roll-overlay/active-roll-overlay.component"
 import { Select, MenuItem, RadioGroup, Radio, FormControlLabel } from "@material-ui/core"
-import { faArrowUp, faArrowDown, faSearch } from "@fortawesome/free-solid-svg-icons"
 import { sortByOption, orderByOption } from "staff-app/contants"
 import { useStateContext } from "StateContext"
 import { SORTS, ORDERS } from "shared/interfaces/staff.interfaces"
 
 export const HomeBoardPage: React.FC = () => {
-  const { searchText, sortBy, orderBy } = useStateContext()
+  const { searchText, sortBy, orderBy, markerStateArr, setMarkerStateArr, rollMarkFilter } = useStateContext()
   const [isRollMode, setIsRollMode] = useState(false)
+  const [rollMarkerCount, setRollMarkerCount] = useState({ all: 0, present: 0, late: 0, absent: 0 })
+
   const [getStudents, data, loadState] = useApi<{ students: Person[] }>({ url: "get-homeboard-students" })
 
   useEffect(() => {
     void getStudents()
   }, [getStudents])
+
+  useEffect(() => {
+    const initArray: any = []
+    if (isRollMode) {
+      data?.students && data?.students.map((student) => initArray.push({ id: student.id, roll_state: "unmark" }))
+      setMarkerStateArr(initArray)
+    } else {
+      setMarkerStateArr(initArray)
+    }
+  }, [isRollMode])
+
+  useEffect(() => {
+    let initMarkerCalc: any = { all: markerStateArr.length }
+    let state
+    markerStateArr?.map((student: any) => {
+      state = student.roll_state
+      if (student.roll_state !== "unmark") {
+        initMarkerCalc[state] = initMarkerCalc[state] ? initMarkerCalc[state] + 1 : 1
+      }
+    })
+    setRollMarkerCount(initMarkerCalc)
+  }, [markerStateArr])
 
   const onToolbarAction = (action: ToolbarAction) => {
     if (action === "roll") {
@@ -47,6 +70,21 @@ export const HomeBoardPage: React.FC = () => {
     return (name?.[SORTS.FIRST_NAME] + name?.[SORTS.LAST_NAME]).toLowerCase().includes(searchText.toLowerCase()) ? true : false
   }
 
+  const filterRoll = (student: any) => {
+    let markStateArrIndex = markerStateArr.findIndex((state: any) => state.id === student.id)
+    if (isRollMode) {
+      if ((markerStateArr as any)[markStateArrIndex]?.roll_state === rollMarkFilter) return true
+      else if (rollMarkFilter === "all") return true
+      else return false
+    } else {
+      return true
+    }
+  }
+
+  const findRollState = (s: any) => {
+    return (markerStateArr as any).find((student: any) => student.id === s.id)?.roll_state
+  }
+
   return (
     <>
       <S.PageContainer>
@@ -63,8 +101,9 @@ export const HomeBoardPage: React.FC = () => {
             {data.students
               .sort((a, b) => nameComparator(a, b))
               .filter((name) => filterName(name))
+              .filter((student) => filterRoll(student))
               .map((s) => (
-                <StudentListTile key={s.id} isRollMode={isRollMode} student={s} />
+                <StudentListTile key={s.id} isRollMode={isRollMode} student={s} initMark={findRollState(s)} />
               ))}
           </>
         )}
@@ -75,7 +114,7 @@ export const HomeBoardPage: React.FC = () => {
           </CenteredContainer>
         )}
       </S.PageContainer>
-      <ActiveRollOverlay isActive={isRollMode} onItemClick={onActiveRollAction} />
+      <ActiveRollOverlay isActive={isRollMode} onItemClick={onActiveRollAction} rollMarkerCount={rollMarkerCount} />
     </>
   )
 }

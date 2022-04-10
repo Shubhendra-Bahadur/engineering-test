@@ -1,4 +1,4 @@
-import { SORTS, ORDERS } from "shared/interfaces/sort.interfaces"
+import { SORTS, ORDERS } from "shared/interfaces/staff.interfaces"
 
 const sortByOption = [
   {

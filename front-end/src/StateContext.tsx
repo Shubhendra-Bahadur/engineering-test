@@ -1,10 +1,14 @@
 import React, { createContext, Dispatch, useContext } from "react"
-import { SORTS, ORDERS } from "shared/interfaces/sort.interfaces"
+import { SORTS, ORDERS } from "shared/interfaces/staff.interfaces"
 
 export const StateVarContext = createContext({
   searchText: "",
   sortBy: SORTS.FIRST_NAME,
   orderBy: ORDERS.ASCENDING,
+  markerStateArr: [],
+  rollMarkFilter: 'all',
+  setRollMarkFilter: {} as Dispatch<any>,
+  setMarkerStateArr: {} as Dispatch<any>,
   setSearchText: {} as Dispatch<any>,
   setSortBy: {} as Dispatch<any>,
   setOrderBy: {} as Dispatch<any>,
