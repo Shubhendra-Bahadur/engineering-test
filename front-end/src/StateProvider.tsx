@@ -8,9 +8,10 @@ export const AppState = () => {
   const [sortBy, setSortBy] = useState<SORTS>(SORTS.FIRST_NAME)
   const [orderBy, setOrderBy] = useState<ORDERS>(ORDERS.ASCENDING)
   const [markerStateArr, setMarkerStateArr] = useState([])
-  const [rollMarkFilter, setRollMarkFilter] = useState<any>('all')
+  const [rollMarkFilter, setRollMarkFilter] = useState<any>("all")
+  const [rollActivity, setRollActivity] = useState<any>([])
 
-  return { searchText, setSearchText, sortBy, setSortBy, orderBy, setOrderBy, markerStateArr, setMarkerStateArr, rollMarkFilter, setRollMarkFilter }
+  return { searchText, setSearchText, sortBy, setSortBy, orderBy, setOrderBy, markerStateArr, setMarkerStateArr, rollMarkFilter, setRollMarkFilter, rollActivity, setRollActivity }
 }
 
 // provideing state context to whole application

@@ -7,6 +7,8 @@ export const StateVarContext = createContext({
   orderBy: ORDERS.ASCENDING,
   markerStateArr: [],
   rollMarkFilter: 'all',
+  rollActivity: [],
+  setRollActivity: {} as Dispatch<any>,
   setRollMarkFilter: {} as Dispatch<any>,
   setMarkerStateArr: {} as Dispatch<any>,
   setSearchText: {} as Dispatch<any>,
