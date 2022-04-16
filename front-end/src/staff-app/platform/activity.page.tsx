@@ -41,7 +41,7 @@ export const ActivityPage: React.FC = () => {
               {rollActivity?.map((activity, index) => {
                 return (
                   <S.RollDataContainer key={index}>
-                    <RollListDateWise activity={activity} key={index} />
+                    <RollListDateWise activity={activity} />
                   </S.RollDataContainer>
                 )
               })}

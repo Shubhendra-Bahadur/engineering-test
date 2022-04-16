@@ -92,6 +92,7 @@ const S = {
       font-size: 16px;
       font-weight: 400;
       box-shadow: 0 2px 7px rgba(5, 66, 145, 0.26);
+      height: 4rem;
     }
 
     .content-summary {
@@ -113,7 +114,7 @@ const S = {
     && {
       flex-wrap: wrap;
       justify-content: space-around;
-      padding: 23px 16px 23px;
+      padding: 23px 16px 16px;
       font-weight: 400;
       font-size: 15px;
     }
